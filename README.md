@@ -7,10 +7,10 @@
 6. Открыть https://<username>.github.io
 
 ## Подключаем Firebase.
-7. Создать аккаунт на https://firebase.google.com/.
-8. Создать новый проект на firebase. (<any_title>).
-9. Отключаем авторизацию / добавляем домен <username>.github.io.
-10. Добавить себе firebase script согласно "Add Firebase to your web app".
+1. Создать аккаунт на https://firebase.google.com/.
+2. Создать новый проект на firebase. (<any_title>).
+3. Отключаем авторизацию / добавляем домен <username>.github.io.
+4. Добавить себе firebase script согласно "Add Firebase to your web app".
 
 ```
 // index.html
@@ -29,7 +29,7 @@
   var db = firebase.database();
 ```
 
-11. Теперь уже нужен сервер для дева:
+5. Теперь уже нужен сервер для дева:
 
 ```bash
   npm i -g http-server
@@ -37,8 +37,8 @@
 ```
 
 ## CRUD
-#### "C" значит Сreate.
-12. Добавляем простую форму:
+#### "C" - Сreate.
+1. Добавляем простую форму:
 
 ```
   <h4>CREATE/UPDATE review</h4>
@@ -47,14 +47,14 @@
     <input type="text" id='fullName' />
     <br/>
     <br/>
-    <input type="text" id='message' />
+    <textarea id='message'></textarea>
     <br/>
     <br/>
     <button type='submit'>Add/Update rewiew</button>
   </form>
 ```
 
-13. Вешаем обработчик
+2. Вешаем обработчик
 
 ```
 var reviewForm = document.getElementById('reviewForm');
@@ -77,13 +77,115 @@ reviewForm.addEventListener('submit', (e) => {
 })
 ```
 
-14. Проверяем создаются ли данные:
+3. Проверяем создаются ли данные:
 
 ```
 curl https://<any_title>.firebaseio.com/reviews.json
 ```
 
-#### "R" значит Read.
+#### "R" - Read.
 
+1. Добавляем на страницу контейнер для хранения отзывов.
 
+```
+  <h4>READ/DELETE reviews</h4>
+  <ul id='reviews'></ul>
+```
 
+2. Вешаем слушателя на firebase event 'child_added'.
+
+```
+var reviews = document.getElementById('reviews');
+var reviewsRef = db.ref('/reviews');
+
+reviewsRef.on('child_added', ({val, key}) => {
+  var li = document.createElement('li')
+  li.id = key;
+  li.innerHTML = reviewTemplate(val())
+  reviews.appendChild(li);
+})
+
+function reviewTemplate({fullName, message}) {
+  return `
+    <div class='fullName'>${fullName}</div>
+    <div class='message'>${message}</div>
+  `
+}
+```
+
+#### "U" - Update.
+
+1. Добавляем в темплейт кнопку Edit.
+```
+function reviewTemplate({fullName, message}) {
+  return `
+    <div class='fullName'>${fullName}</div>
+    <div class='message'>${message}</div>
+    <button class='edit'>Edit</button>
+  `
+}
+```
+
+2. Вешаем обработчик на кнопку Edit:
+
+```
+reviews.addEventListener('click', (e) => {
+  var reviewNode = e.target.parentNode
+
+  // UPDATE REVEIW
+  if (e.target.classList.contains('edit')) {
+    fullName.value = reviewNode.querySelector('.fullName').innerText;
+    message.value  = reviewNode.querySelector('.message').innerText;
+    hiddenId.value = reviewNode.id;
+  }
+})
+```
+
+3. Вешаем слушателя на firebase event 'child_changed'.
+
+```
+reviewsRef.on('child_changed', (data) => {
+  var reviewNode = document.getElementById(data.key);
+  reviewNode.innerHTML = reviewTemplate(data.val());
+});
+```
+
+#### "D" - Delete.
+
+1. Добавляем в темплейт кнопку Delete.
+```
+function reviewTemplate({fullName, message}) {
+  return `
+    <div class='fullName'>${fullName}</div>
+    <div class='message'>${message}</div>
+    <button class='edit'>Edit</button>
+    <button class='delete'>Delete</button>
+  `
+}
+```
+
+2. Вешаем обработчик на кнопку Delete:
+
+```
+  reviews.addEventListener('click', (e) => {
+    var reviewNode = e.target.parentNode
+
+    // UPDATE REVEIW
+    //...
+
+    // DELETE REVEIW
+    if (e.target.classList.contains('delete')) {
+      var id = reviewNode.id;
+      db.ref('reviews/' + id).remove();
+    }
+  })
+```
+
+3. Вешаем слушателя на firebase event 'child_removed'.
+
+```
+  reviewsRef.on('child_removed', (data) => {
+    var reviewNode = document.getElementById(data.key);
+    reviewNode.parentNode.removeChild(reviewNode);
+  });
+```
