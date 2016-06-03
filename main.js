@@ -30,7 +30,7 @@ reviewForm.addEventListener('submit', (e) => {
   fullName.value = '';
   message.value  = '';
   hiddenId.value = '';
-})
+});
 
 // READ REVEIWS
 
@@ -69,7 +69,7 @@ reviews.addEventListener('click', (e) => {
     var id = reviewNode.id;
     db.ref('reviews/' + id).remove();
   }
-})
+});
 
 function reviewTemplate({fullName, message}) {
   return `
@@ -78,4 +78,4 @@ function reviewTemplate({fullName, message}) {
     <button class='delete'>Delete</button>
     <button class='edit'>Edit</button>
   `
-}
+};
