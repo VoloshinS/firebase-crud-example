@@ -1,16 +1,16 @@
 ## GITHUB PAGES
-1. Cоздать репу <username>.github.io
-2. Склонить.
-3. Создaть index.html main.js main.css
-4. Наполнить index.html минимальной версткой.
-5. Запушить.
-6. Открыть https://<username>.github.io
+1) Cоздать репу <username>.github.io
+2) Склонить.
+3) Создaть index.html main.js main.css
+4) Наполнить index.html минимальной версткой.
+5) Запушить.
+6) Открыть https://<username>.github.io
 
 ## Подключаем Firebase.
-1. Создать аккаунт на https://firebase.google.com/.
-2. Создать новый проект на firebase. (<any_title>).
-3. Отключаем авторизацию / добавляем домен <username>.github.io.
-4. Добавить себе firebase script согласно "Add Firebase to your web app".
+1) Создать аккаунт на https://firebase.google.com/.
+2) Создать новый проект на firebase. (<any_title>).
+3) Отключаем авторизацию / добавляем домен <username>.github.io.
+4) Добавить себе firebase script согласно "Add Firebase to your web app".
 
 ```
 // index.html
@@ -29,7 +29,7 @@
   var db = firebase.database();
 ```
 
-5. Теперь уже нужен сервер для дева:
+5) Теперь уже нужен сервер для дева:
 
 ```bash
   npm i -g http-server
@@ -38,7 +38,7 @@
 
 ## CRUD
 #### "C" - Сreate.
-1. Добавляем простую форму:
+1) Добавляем простую форму:
 
 ```
   <h4>CREATE/UPDATE review</h4>
@@ -54,7 +54,7 @@
   </form>
 ```
 
-2. Вешаем обработчик
+2) Вешаем обработчик
 
 ```
 var reviewForm = document.getElementById('reviewForm');
@@ -77,7 +77,7 @@ reviewForm.addEventListener('submit', (e) => {
 })
 ```
 
-3. Проверяем создаются ли данные:
+3) Проверяем создаются ли данные:
 
 ```
 curl https://<any_title>.firebaseio.com/reviews.json
@@ -85,14 +85,14 @@ curl https://<any_title>.firebaseio.com/reviews.json
 
 #### "R" - Read.
 
-1. Добавляем на страницу контейнер для хранения отзывов.
+1) Добавляем на страницу контейнер для хранения отзывов.
 
 ```
   <h4>READ/DELETE reviews</h4>
   <ul id='reviews'></ul>
 ```
 
-2. Вешаем слушателя на firebase event 'child_added'.
+2) Вешаем слушателя на firebase event 'child_added'.
 
 ```
 var reviews = document.getElementById('reviews');
@@ -115,7 +115,7 @@ function reviewTemplate({fullName, message}) {
 
 #### "U" - Update.
 
-1. Добавляем в темплейт кнопку Edit.
+1) Добавляем в темплейт кнопку Edit.
 ```
 function reviewTemplate({fullName, message}) {
   return `
@@ -126,7 +126,7 @@ function reviewTemplate({fullName, message}) {
 }
 ```
 
-2. Вешаем обработчик на кнопку Edit:
+2) Вешаем обработчик на кнопку Edit:
 
 ```
 reviews.addEventListener('click', (e) => {
@@ -141,7 +141,7 @@ reviews.addEventListener('click', (e) => {
 })
 ```
 
-3. Вешаем слушателя на firebase event 'child_changed'.
+3) Вешаем слушателя на firebase event 'child_changed'.
 
 ```
 reviewsRef.on('child_changed', (data) => {
@@ -152,7 +152,7 @@ reviewsRef.on('child_changed', (data) => {
 
 #### "D" - Delete.
 
-1. Добавляем в темплейт кнопку Delete.
+1) Добавляем в темплейт кнопку Delete.
 ```
 function reviewTemplate({fullName, message}) {
   return `
@@ -164,7 +164,7 @@ function reviewTemplate({fullName, message}) {
 }
 ```
 
-2. Вешаем обработчик на кнопку Delete:
+2) Вешаем обработчик на кнопку Delete:
 
 ```
   reviews.addEventListener('click', (e) => {
@@ -181,7 +181,7 @@ function reviewTemplate({fullName, message}) {
   })
 ```
 
-3. Вешаем слушателя на firebase event 'child_removed'.
+3) Вешаем слушателя на firebase event 'child_removed'.
 
 ```
   reviewsRef.on('child_removed', (data) => {
