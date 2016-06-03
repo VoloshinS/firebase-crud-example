@@ -11,12 +11,15 @@ var db = firebase.database();
 // CREATE REWIEW
 
 var reviewForm = document.getElementById('reviewForm');
-var fullName = document.getElementById('fullName');
-var message = document.getElementById('message');
-var hiddenId = document.getElementById('hiddenId');
+var fullName   = document.getElementById('fullName');
+var message    = document.getElementById('message');
+var hiddenId   = document.getElementById('hiddenId');
 
 reviewForm.addEventListener('submit', (e) => {
   e.preventDefault();
+
+  if (!fullName.value || !message.value) return null
+
   var id = hiddenId.value || Date.now()
 
   db.ref('reviews/' + id).set({
@@ -25,7 +28,7 @@ reviewForm.addEventListener('submit', (e) => {
   });
 
   fullName.value = '';
-  message.value = '';
+  message.value  = '';
   hiddenId.value = '';
 })
 
@@ -36,39 +39,35 @@ var reviewsRef = db.ref('/reviews');
 
 reviewsRef.on('child_added', (data) => {
   var li = document.createElement('li')
-  var review = data.val();
   li.id = data.key;
-  li.innerHTML = reviewTemplate(review)
+  li.innerHTML = reviewTemplate(data.val())
   reviews.appendChild(li);
-})
+});
+
+reviewsRef.on('child_changed', (data) => {
+  var reviewNode = document.getElementById(data.key);
+  reviewNode.innerHTML = reviewTemplate(data.val());
+});
 
 reviewsRef.on('child_removed', (data) => {
   var reviewNode = document.getElementById(data.key);
   reviewNode.parentNode.removeChild(reviewNode);
-})
-
-reviewsRef.on('child_changed', (data) => {
-  var review = data.val();
-  var reviewNode = document.getElementById(data.key);
-  reviewNode.innerHTML = reviewTemplate(review);
-})
-
+});
 
 reviews.addEventListener('click', (e) => {
-
-  // DELETE REVEIW
-  if (e.target.classList.contains('delete')) {
-    var reviewNode = e.target.parentNode
-    var id = reviewNode.id;
-    db.ref('reviews/' + id).remove();
-  }
+  var reviewNode = e.target.parentNode
 
   // UPDATE REVEIW
   if (e.target.classList.contains('edit')) {
-    var reviewNode = e.target.parentNode
     fullName.value = reviewNode.querySelector('.fullName').innerText;
-    message.value = reviewNode.querySelector('.message').innerText;
+    message.value  = reviewNode.querySelector('.message').innerText;
     hiddenId.value = reviewNode.id;
+  }
+
+  // DELETE REVEIW
+  if (e.target.classList.contains('delete')) {
+    var id = reviewNode.id;
+    db.ref('reviews/' + id).remove();
   }
 })
 

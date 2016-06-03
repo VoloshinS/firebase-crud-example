@@ -1,5 +1,55 @@
+body {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+}
+
+div, input, a, button, textarea, ul, li {
+  box-sizing: border-box;
+}
+
 .container {
   max-width: 100%;
   width: 760px;
   margin: 0 auto;
+}
+
+#reviews {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #EEE;
+}
+
+#reviews li {
+  padding: 10px;
+  border: 1px solid #EEE;
+  border-bottom: none;
+}
+
+input[type="text"],
+textarea {
+  border: 1px solid #EEE;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+.header {
+  text-align: center;
+  padding-top: 50px;
+}
+.header h1,
+.header h4 {
+  font-weight: normal;
+  margin: 10px 0;
+}
+
+.header img {
+  border-radius: 50%;
+  box-shadow: 0 1px 1px rgba(0,0,0,.1),0 1px 1px rgba(0,0,0,.1);
 }
