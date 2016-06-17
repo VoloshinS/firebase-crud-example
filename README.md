@@ -1,5 +1,9 @@
 # Firebase-crud-example on github pages.
 
+Working example: http://voloshins.js.org/firebase-crud-example/
+
+## Steps to implement by your own
+
 ### Create your Github Pages
 ___
 
