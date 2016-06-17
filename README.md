@@ -1,16 +1,29 @@
-## GITHUB PAGES
-1) Cоздать репу <username>.github.io
-2) Склонить.
-3) Создaть index.html main.js main.css
-4) Наполнить index.html минимальной версткой.
-5) Запушить.
-6) Открыть https://<username>.github.io
+# firebase-crud-example on github pages.
 
-## Подключаем Firebase.
-1) Создать аккаунт на https://firebase.google.com/.
-2) Создать новый проект на firebase. (<any_title>).
-3) Отключаем авторизацию / добавляем домен <username>.github.io.
-4) Добавить себе firebase script согласно "Add Firebase to your web app".
+## GITHUB PAGES
+1) Create repo [github_username].github.io.
+
+2) Clone it.
+
+3) Create files index.html main.js main.css.
+
+4) Add minimal markup into index.html.
+
+5) Push to repo.
+
+6) Open https://[github_username].github.io.
+
+7) You have your own website.
+
+## Connect Firebase.
+
+1) Create account at https://firebase.google.com/.
+
+2) Create new project at firebase. ([any_title]).
+
+3) Disable authorization / add github pages domain to list of allowed domains [github_username].github.io.
+
+4) Add firebase script to index.html according to "Add Firebase to your web app".
 
 ```
 // index.html
@@ -19,17 +32,17 @@
 //main.js
   // Initialize Firebase
   var config = {
-    apiKey: "<api_key>",
-    authDomain: "<any_title>.firebaseapp.com",
-    databaseURL: "https://<any_title>.firebaseio.com",
-    storageBucket: "<any_title>.appspot.com",
+    apiKey: "[api_key]",
+    authDomain: "[any_title].firebaseapp.com",
+    databaseURL: "https://[any_title].firebaseio.com",
+    storageBucket: "[any_title].appspot.com",
   };
 
   firebase.initializeApp(config);
   var db = firebase.database();
 ```
 
-5) Теперь уже нужен сервер для дева:
+5) Simplest server for development:
 
 ```bash
   npm i -g http-server
@@ -37,8 +50,10 @@
 ```
 
 ## CRUD
+
 #### "C" - Сreate.
-1) Добавляем простую форму:
+
+1) Create simple form:
 
 ```
   <h4>CREATE/UPDATE review</h4>
@@ -54,7 +69,7 @@
   </form>
 ```
 
-2) Вешаем обработчик
+2) Add handlers:
 
 ```
 var reviewForm = document.getElementById('reviewForm');
@@ -77,22 +92,22 @@ reviewForm.addEventListener('submit', (e) => {
 })
 ```
 
-3) Проверяем создаются ли данные:
+3) Check in console if data was created:
 
 ```
-curl https://<any_title>.firebaseio.com/reviews.json
+curl https://[any_title].firebaseio.com/reviews.json
 ```
 
 #### "R" - Read.
 
-1) Добавляем на страницу контейнер для хранения отзывов.
+1) Add container to render reviews.
 
 ```
   <h4>READ/DELETE reviews</h4>
   <ul id='reviews'></ul>
 ```
 
-2) Вешаем слушателя на firebase event 'child_added'.
+2) Add listener on firebase event 'child_added'.
 
 ```
 var reviews = document.getElementById('reviews');
@@ -115,7 +130,7 @@ function reviewTemplate({fullName, message}) {
 
 #### "U" - Update.
 
-1) Добавляем в темплейт кнопку Edit.
+1) Add button Edit to template.
 ```
 function reviewTemplate({fullName, message}) {
   return `
@@ -126,7 +141,7 @@ function reviewTemplate({fullName, message}) {
 }
 ```
 
-2) Вешаем обработчик на кнопку Edit:
+2) Add handler on button Edit:
 
 ```
 reviews.addEventListener('click', (e) => {
@@ -141,7 +156,7 @@ reviews.addEventListener('click', (e) => {
 })
 ```
 
-3) Вешаем слушателя на firebase event 'child_changed'.
+3) Add listener on firebase event 'child_changed'.
 
 ```
 reviewsRef.on('child_changed', (data) => {
@@ -152,7 +167,7 @@ reviewsRef.on('child_changed', (data) => {
 
 #### "D" - Delete.
 
-1) Добавляем в темплейт кнопку Delete.
+1) Add button Delete to template.
 ```
 function reviewTemplate({fullName, message}) {
   return `
@@ -164,7 +179,7 @@ function reviewTemplate({fullName, message}) {
 }
 ```
 
-2) Вешаем обработчик на кнопку Delete:
+2) Add handler on button Delete:
 
 ```
   reviews.addEventListener('click', (e) => {
@@ -181,7 +196,7 @@ function reviewTemplate({fullName, message}) {
   })
 ```
 
-3) Вешаем слушателя на firebase event 'child_removed'.
+3) Add listener on firebase event 'child_removed'.
 
 ```
   reviewsRef.on('child_removed', (data) => {
