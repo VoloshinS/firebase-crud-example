@@ -1,6 +1,7 @@
-# firebase-crud-example on github pages.
+# Firebase-crud-example on github pages.
 
-## GITHUB PAGES
+### Create your Github Pages
+
 1) Create repo [github_username].github.io.
 
 2) Clone it.
@@ -15,7 +16,7 @@
 
 7) You have your own website.
 
-## Connect Firebase.
+### Connect Firebase.
 
 1) Create account at https://firebase.google.com/.
 
@@ -49,7 +50,7 @@
   http-server
 ```
 
-## CRUD
+### Implement CRUD
 
 #### "C" - Сreate.
 
