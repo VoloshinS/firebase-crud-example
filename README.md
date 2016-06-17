@@ -52,7 +52,7 @@
 
 ### Implement CRUD
 
-#### "C" - Сreate.
+#### "C" - Сreate
 
 1) Create simple form:
 
@@ -99,7 +99,7 @@ reviewForm.addEventListener('submit', (e) => {
 curl https://[any_title].firebaseio.com/reviews.json
 ```
 
-#### "R" - Read.
+#### "R" - Read
 
 1) Add container to render reviews.
 
@@ -129,7 +129,7 @@ function reviewTemplate({fullName, message}) {
 }
 ```
 
-#### "U" - Update.
+#### "U" - Update
 
 1) Add button Edit to template.
 ```
@@ -166,7 +166,7 @@ reviewsRef.on('child_changed', (data) => {
 });
 ```
 
-#### "D" - Delete.
+#### "D" - Delete
 
 1) Add button Delete to template.
 ```
