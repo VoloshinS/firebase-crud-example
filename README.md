@@ -16,7 +16,7 @@
 
 7) You have your own website.
 
-### Connect Firebase.
+### Connect Firebase
 
 1) Create account at https://firebase.google.com/.
 
